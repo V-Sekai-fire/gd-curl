@@ -36,7 +36,6 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     name: 🔧 Build
-    needs: static-checks
     strategy:
       fail-fast: false
       matrix:
@@ -193,6 +192,18 @@ jobs:
           python --version
           scons --version
           cmake --version
+
+      - name: Compile Extension - editor - ${{ matrix.platform }} - ${{ matrix.arch }}
+        env:
+          ANDROID_NDK_ROOT: ${{ steps.android-setup-ndk.outputs.ndk-path }}
+        run: |
+          scons target=editor
+
+      - name: Compile Extension - editor - ${{ matrix.platform }} - ${{ matrix.arch }}
+        env:
+          ANDROID_NDK_ROOT: ${{ steps.android-setup-ndk.outputs.ndk-path }}
+        run: |
+          scons target=editor
 
       - name: Compile Extension - template_debug - ${{ matrix.platform }} - ${{ matrix.arch }}
         env:
